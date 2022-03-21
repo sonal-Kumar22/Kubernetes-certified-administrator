@@ -1,0 +1,41 @@
+Namespaces are like independent , isolated spaces where the resources are managed.
+when we create objects in kubernetes,it gets created in default namespace 
+we can also have namespaces of our own where we can share and limit resources
+kubernetes handles DNS in kube-system namespace.
+
+commands:
+- list all pods of another namespace : kubectl get pods --namespace=kube-system
+- list all pods of default namespace : kubectl get pods
+- create pod in default namespace : kubectl create -f pod-file.yaml
+- create pod in different namespace : kubectl create -f pod-file.yaml --namespace=dev
+if we don't want to mention namespace all the time in command , we can move this to yaml file under metadata section of object
+
+command to create namespace:
+- kubectl create -f namespace-dev.yaml
+YAML File:
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  
+OR
+- kubectl create namespace dev
+
+command to permanently switch the namespace from default to some other
+- kubectl config set-context $(kubectl config current-context) --namespace=dev
+
+Command to view all the pods in all the namespaces:
+- kubectl get pods --all-namespaces
+
+Create a POD in the finance namespace.
+Name: redis
+Image Name: redis
+
+- kubectl run redis --image=redis --namespace=finance
+- kubectl get pods --namespace=finance
+
+Command to access db-service of another namespace:
+What DNS name should the Blue application use to access the database 'db-service' in the 'dev' namespace
+- mysql.connect("db-service.dev.svc.cluster.local")
+
+
