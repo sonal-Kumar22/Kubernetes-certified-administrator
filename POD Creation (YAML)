@@ -1,0 +1,24 @@
+Creation of POD using YAML file 
+
+pod-definition.yaml file contents :
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+  labels:
+    type: redis-pod
+    app: redis
+spec:
+  containers:
+   - name: redis123
+     image: redis
+
+Then run commands : kubectl create -f pod-definition.yaml
+                  : kubectl get pods
+                  
+OR 
+we can directly run commands:
+kubectl run redis --image redis123 --dry-run=client -o yaml > pod-definition.yaml
+view the yaml file through - vi pod-definition.yaml
+then run : kubectl create -f pod-definition.yaml
+         : kubectl get pods
