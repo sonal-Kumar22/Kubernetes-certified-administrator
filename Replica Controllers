@@ -1,0 +1,42 @@
+Controllers: 
+They are the brain behind kubernetes. They are processes that monitor kubernetes objects (pod,node..) and respond accordingly.
+Replication Controller : 
+It helps us run multiple instances of a single pod in kubernetes cluster by running multiple pods thus providing high availability.
+Even if we have a single pod, replication controller can still help by bringing up new pod in place of failed pod.
+It also helps in load balancingpo and scaling.
+They can also monitor existing PODs.
+
+Replication Controller is replaced by replica set.
+Commands:
+1.create replication controller using YAML file : kubectl create -f replicationControlelr.yaml
+2.view replication controller created along with total replicas : kubectl get replicationcontroller
+3.To update the file content we use command after doing changes in the file : 
+kubectl replace -f filename.yml
+or 
+kubectl scale --replicas=6 -f filename.yml (for this we need not modify the file,it'll be done through command line)
+or
+kubectl scale --replicas=6 replicaset myapp-replicaset(name) (for this we need not modify the file,it'll be done through command line)
+4.delete replica sets: kubectl delete replicaset replicaset-name 
+(it deletes all underlying PODs)
+5.Command to edit replicaset file : kubectl edit replicaset new-replica-set(replicaset name)
+
+YAML file to create replicaset:
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: nginx
+  template:
+    metadata:
+      labels:
+        tier: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        
+        
