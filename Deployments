@@ -1,0 +1,79 @@
+Deployment allows us to upgrade the container one by one in rotation
+undo changes, pause and resume changes as required
+the content of deployment.yaml file will be similar to replicaset.yaml file except the 'kind' parameter which will now be 'Deployment'
+
+Commands:
+- kubectl create -f deployment.yaml (create deployemnt)
+- kubectl get deployments (view deployments)
+the deployment automatically creates a replica sets 
+- kubectl get replicaset(with name of deployment)
+replicasets ultimately create pods
+- kubectl get pods (with ame of deployment and replicasets)
+-command to view all created onjects at once : kubectl get all
+
+Create a deployment
+-> kubectl create deployment --image=nginx nginx
+Generate Deployment YAML file (-o yaml). Don't create it(--dry-run)
+-> kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
+Generate Deployment YAML file (-o yaml). Don't create it(--dry-run) with 4 Replicas (--replicas=4)
+-> kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml
+Save it to a file, make necessary changes to the file (for example, adding more replicas) and then create the deployment.
+-> kubectl create -f nginx-deployment.yaml
+OR
+
+In k8s version 1.19+, we can specify the --replicas option to create a deployment with 4 replicas.
+-> kubectl create deployment --image=nginx nginx --replicas=4 --dry-run=client -o yaml > nginx-deployment.yaml
+
+YAML file to create deployment:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: busybox-pod
+  template:
+    metadata:
+      labels:
+        name: busybox-pod
+    spec:
+      containers:
+      - name: busybox-container
+        image: busybox
+        command:
+        - sh
+        - "-c"
+        - echo Hello Kubernetes! && sleep 3600
+        
+        
+Create a new Deployment with the below attributes using your own deployment definition file.
+Name: httpd-frontend;
+Replicas: 3;
+Image: httpd:2.4-alpine
+
+Commands:
+- kubectl create deployment --image=httpd:2.4-alpine alpine-image --dry-run=client -o yaml > alpine-deployment.yaml
+- vim alpine-deployment.yaml (update contents as per need)
+- kubectl create -f alpine-deployment.yaml
+
+YAML File:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: httpd-frontend
+  template:
+    metadata:
+      labels:
+        name: httpd-frontend
+    spec:
+      containers:
+      - name: httpd-frontend
+        image: httpd:2.4-alpine
+
