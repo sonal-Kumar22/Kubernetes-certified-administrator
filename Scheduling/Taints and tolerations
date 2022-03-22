@@ -1,0 +1,53 @@
+Taints and tolerations : 
+they are not responsible for security, they see which pods can go to which node.
+When the pods are created kubernetes scheduler tries to place these pods on avaialble worker nodes.Scheduler tries to distribute the load evenly.
+Taints are set on nodes and tolerations are set on pods.
+
+Command to taint node:
+- kubectl taint nodes node-name key=value:taint-effect
+taint-effect defines what would happen to the pods if they do not tolerate the taint. There are 3 taint effects :
+1. NoSchedule - pods will not be scheduled on the node
+2. PreferNoSchedule - system will try to avaoid placing a pod on the node but not guaranteed
+3. NoExecute - new pods will not be scheduled on the nodes and existing pods on the node if any will be evicted if they do not tolerate the taint
+Ex: kubectl taint nodes node1 app=blue:NoSchedule
+
+Tolerations are added to PODs
+Taints and tolerations does not tell pods to go to a particular node it tells nodes to accept certain pods.
+
+Command to check whether ant taint is present in node01 node
+- kubectl describe node node01 | grep Taint
+
+Q)Create another pod named bee with the nginx image, which has a toleration set to the taint mortein.
+- create yaml file -> vi sample.yaml
+YAML File:-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+  labels:
+    type: redis-pod
+    app: redis
+spec:
+  containers:
+   - name: redis123
+     image: nginx
+  tolerations:
+   - key: "spray"
+     operator: "Equal"
+     value: "mortein"
+     effect: "NoSchedule"
+     
+- create --> kubectl create -f sample.yaml
+
+-command to remove taint from node: kubectl taint node node-name taint-address-
+ex: kubectl taint node controlplane node-role.kubernetes.io/master:NoSchedule-
+
+Note:
+To find the cluster IP address of a Kubernetes pod, use the kubectl get pod command on your local machine, with the option -o wide . This option will 
+list more information, including the node the pod resides on, and the pod's cluster IP. The IP column will contain the internal cluster IP address for 
+each pod.
+Command : kubectl get pods -o wide
+
+
+     
+
