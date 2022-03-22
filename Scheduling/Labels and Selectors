@@ -1,0 +1,11 @@
+Labels and Selectors:
+Labels: are properties attached to each item
+Selectors: selectors help filter these labels
+
+command to select pods with label :
+- kubectl get pods --selector app=App1
+
+Annotations:
+while labels and selectors are used to group and select objects annotations are used to record other details for informatory purpose
+ex: tool details like name, version build info etc 
+
