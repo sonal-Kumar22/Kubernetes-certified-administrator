@@ -1,0 +1,48 @@
+Services enable connectivity between different pods.
+It helps to establish connection between front-end and users.
+It also helps to connect front-end and back-end
+One of its use case is to listen to a port on the node and forward it to port on the POD running the web application.
+This type of service is called NodePortService.
+Types of services:
+1. NodePort : this service makes an internal pod accessible on a port on the Node.
+2. ClusterIP : the service creates a virtual IP inside the clusterto enable communication between different services such as set of frontend servers to 
+   backend servers
+3. LoadBalancer : where it provisions a load balancer for our application in supported cloud provider. Ex: to distribute load across different web servers 
+   in front end tier
+Range fo nodeport is : 30000 - 32767
+If we dont provide value of nodeport any value from range 30000 - 32767 will be allocated 
+If in target port value is not specified then port value will be considered
+
+command to create service:
+- kubectl create -f file.yml
+- kubectl get services
+
+ClusterIP:
+It helps to form a common bridge which can guide us to go to which pod as pods IPs can change depending on the pods going down.
+Each layer (front-end,back-end) can scale without worrying about how will the interaction happen.
+Each service gets an IP name assigned to it inside the cluster and that is the name that should be used by other pods to access the service.
+
+kubernetes creates a default service on launch naed kubernetes of type clusterIP
+
+Create a new service to access the web application using the service-definition-1.yaml file
+Name: webapp-service
+Type: NodePort
+targetPort: 8080
+port: 8080
+nodePort: 30080
+selector: simple-webapp
+
+YAML File :-
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8080
+      port: 8080
+      nodePort: 30080
+  selector:
+    name: simple-webapp
