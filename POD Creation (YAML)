@@ -21,4 +21,8 @@ we can directly run commands:
 kubectl run redis --image redis123 --dry-run=client -o yaml > pod-definition.yaml
 view the yaml file through - vi pod-definition.yaml
 then run : kubectl create -f pod-definition.yaml
-         : kubectl get pods
+         : kubectl get podkubectl get pod -o wides
+
+
+Command to see Which nodes are the pods placed on now?
+-> kubectl get pod -o wide
