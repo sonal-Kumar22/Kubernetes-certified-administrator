@@ -83,6 +83,8 @@ Q)Create a new deployment named blue with the nginx image and 3 replicas.
 - kubectl get deployment
 
 Command to edit deployment: kubectl edit deployment deployment_name
+command to check deployment is on which node : kubectl get pods -o wide | grep red
+here red is deployment created.
 
 
 
