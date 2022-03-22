@@ -82,5 +82,7 @@ Q)Create a new deployment named blue with the nginx image and 3 replicas.
 - kubectl create deployment blue --image=nginx --replicas=3
 - kubectl get deployment
 
+Command to edit deployment: kubectl edit deployment deployment_name
+
 
 
