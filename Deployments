@@ -76,4 +76,11 @@ spec:
       containers:
       - name: httpd-frontend
         image: httpd:2.4-alpine
+        
+        
+Q)Create a new deployment named blue with the nginx image and 3 replicas.
+- kubectl create deployment blue --image=nginx --replicas=3
+- kubectl get deployment
+
+
 
