@@ -1,0 +1,110 @@
+Node Selectors:
+We can configure PODs in such a way that we can select in what type of nodes these pods should go in depending on size of pods and node size needed 
+accordingly.
+The key value pair of size and large are in fact labels assigned to the nodes, the scheduler uses these labels to match and identify the right node to place
+the pods on
+We must first label node prior to creating and labelling the POD
+Command to label nodes:
+- kubectl label nodes <node-name> <label-key>=<label-value>
+Ex: kubectl label nodes node1 size=large
+
+The exists operator will simply check if the label 'size' exists on the nodes and you need no value for this as we dont compare values.
+the type of node affinity defines the behaviour of the scheduler with respect to node affinity and the stages in the lifecycle of the pod.
+There are currently two types of node affinity available:
+- requiredDuringSchedulingIgnoredDuringExecution
+- preferredDuringSchedulingIgnoredDuringExecution
+
+There are two states in the lifecycle of a pod when considering node affinity during scheduling and during execution
+DuringScheduling : Is the state where a pod does not exist and is created for the first time
+
+But let's say the pod placement is less important than running the workload itself.
+DuringExecution: 
+
+Now what if the nodes with matching labels are not available.For example we forgot to label the node as large.
+That is where the type of node affinity used comes into play.
+
+Q) How many Labels exist on node node01?
+- kubectl get nodes node01 --show-labels
+
+Q)Apply a label color=blue to node node01
+- kubectl label nodes node01 color=blue
+- kubectl get nodes node01 --show-labels
+
+Q)Create a new deployment named blue with the nginx image and 3 replicas.
+- kubectl create deployment blue --image=nginx --replicas=3
+- kubectl get deployment
+
+Q)Create a new deployment named red with the nginx image and 2 replicas, and ensure it gets placed on the controlplane node only.
+  Use the label - node-role.kubernetes.io/master - set on the controlplane node.
+Name: red
+Replicas: 2
+Image: nginx
+NodeAffinity: requiredDuringSchedulingIgnoredDuringExecution
+Key: node-role.kubernetes.io/master
+Use the right operator
+
+Commands:
+- kubectl create deployment red --image=nginx --replicas=2 --dry-run=client -o yaml > red.yaml
+- vi red.yaml
+- YAML File:-
+Before:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: red
+  name: red
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: red
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: red
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+
+After:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: red
+  name: red
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: red
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: red
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+      NodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/master
+            operator: Exists
+status: {}
+
+- kubectl apply -f red.yaml
+- command to view whether deployment is placed on desired node : kubectl get pods -o wide | grep red
+
+
