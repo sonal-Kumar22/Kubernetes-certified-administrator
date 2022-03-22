@@ -16,3 +16,8 @@ spec:
 - kubectl create -f nginx.yaml
 - kubectl get pod
 
+Note: the scheduler does not schedule any any part in the master node because when kubernetes cluster is first setup it sets a taint on master node 
+      which prevents any pods from being scheduled on this master node
+      Command to view this taint : 
+      - kubectl describe node kubemaster | grep Taint 
+
