@@ -1,0 +1,62 @@
+ReplicaSet ensures that the number of pods of an application is running on the correct scale as specified in the conf file.
+Whereas in the case of DaemonSet it will ensure that one copy of pod defined in our configuration will always be available on every worker node.
+
+The total # of pods running in DaemonSet = Number of worker nodes in our cluster
+
+If a new node is added in our cluster then DaemonSet will automatically allocate pod on that node. Similarly, if a node is deleted then the pod running on 
+the node is also destroyed, it will not reschedule the pod on different nodes as in case of ReplicaSet.
+
+ReplicaSet Vs DaemonSet : https://blog.knoldus.com/opsinit-replicaset-vs-daemonset-in-kubernetes/#:~:text=In%20this%20way%2C%20ReplicaSet%20ensures,available%20on%20every%20worker%20node.
+
+Use case of daemon sets: you can set up monitoring and log collection on each node.As it (daemonsets) can deploy monitoring agent on all the nodes in form 
+of pods.You don't have to worry about adding or removing monitoring agents from these nodes when there are changes in the cluster as daemonset will take 
+care of it.
+
+Commands:
+- create daemon set: kubectl create -f file.yaml
+- view daemon sets: kubectl get daemonsets
+- kubectl describe daemonsets daemonSet-Name
+
+One way to set pod to a node is through nodename property.It was the case till kubernetes version 1.12
+From above 1.12 we use node affinity and default scheduler
+
+Q)On how many nodes are the pods scheduled by daemonset kube-proxy
+-kubectl describe Daemonset kube-proxy --namespace=kube-system
+
+Q)Deploy a daemonset for FluentD logging
+- kubectl create deployment elasticsearch --image=k8s.gcr.io/fluentd-elasticsearch:1.20 --dry-run=client -o yaml > elastc.yaml
+- vi elastc.yaml
+
+YAML File:
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: k8s.gcr.io/fluentd-elasticsearch:1.20
+        name: fluentd-elasticsearch
+
+- kubectl apply -f elastc.yaml
+
+Is Fluentd a DaemonSet?
+Image result for daemonset for FluentD logging
+Fluentd provides “Fluentd DaemonSet“ which enables you to collect log information from containerized applications easily. With DaemonSet, you can ensure 
+that all (or some) nodes run a copy of a pod.
+
+Command to view daemonset created in a namespace: kubectl -n kube-system get ds elasticsearch
+
