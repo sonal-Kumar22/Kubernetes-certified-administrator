@@ -101,3 +101,28 @@ Edit Deployments
 With Deployments you can easily edit any field/property of the POD template. Since the pod template is a child of the deployment specification,  with every change the deployment will automatically delete and create a new pod with the new changes. So if you are asked to edit a property of a POD part of a deployment you may do that simply by running the command
 
 kubectl edit deployment my-deployment
+
+reason for the pod not running is OOMKilled. This means that the pod ran out of memory.
+It's changing the status frequently so make use of the watch command to get the output every two seconds: -
+- watch kubectl get pods
+Note: - Make use of the CTRL + C key to exit from the process.
+
+Command to create YAML file of existing pod:
+- kubectl get pod elephant -o taml > elephany.yaml
+
+What's the difference between Pod resources.limits and resources.requests in Kubernetes?
+--
+When Kubernetes pod is scheduled on a particular node it is required the pod to have enough resources to run. Kubernetes knows resources of it's node but
+how does kubernetes knows the how much resources will pod takes beforehand to schedule it effectively in nodes. For that requests will be used. When we 
+specify a request of resource kubernetes will guarantee that pod will get that amount of resource.
+On other hand limit limits the resource usage by a pod. Kubernetes will not allow a pod to take more resources than the limit. When it comes to CPU if 
+you request more kubernetes will throttle pods CPU artificially. If pod exceed a limit pod will be it will be terminated. To make it simple it simple 
+limit is always bigger than request.
+This example will give you idea about request and limit. Think that there is a pod where you have specify its memory request as 7GB and memory limit as 
+10GB. There are three nodes in your cluster where node1 has 2GB of memory, node2 has 8GB memory and node3 has 16GB. Your pod will never be scheduled on 
+node1. But it will either be sceduled on node2 or node3 depending on pod current memory usage. But if it is scheduled on node3 it will be terminated in 
+any scenario it will exceed the memory usage of 10GB.
+
+
+
+
