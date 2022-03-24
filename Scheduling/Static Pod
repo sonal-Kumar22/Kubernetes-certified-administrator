@@ -1,0 +1,46 @@
+The kubelet relies on the kube-apiserver for instructions on what PODs to load on its node,which was based on a decision made by the kube-scheduler which
+was stored in the ETCD datastore.
+What if there was no kube-apiserver, and kube-scheduler and no controllers and no ETCD cluster.
+
+What if there was no master at all.
+
+What if there were no other nodes.
+
+What if you're all alone in the sea by yourself.
+
+Not part of any cluster.
+
+Is there anything that the kubelet can do as the captain on the ship?
+
+Can it operate as an independent node?
+
+If so who would provide the instructions required to create PODs?
+
+The one thing that the kubelet knows to do is create PODs. But we don’t have an API server here to provide POD details.
+By now we know that to create a POD you need the details of the POD in a POD definition file. But how
+
+do you provide a pod definition file to the kubelet without a kube-api server?
+
+You can configure the kubelet to read the pod definition files from a directory on the server designated to store information about pods.
+the Kubelet periodically checks this directory for files reads these files and creates pods on the host.
+
+So these PODs that are created by the kubelet on its own without the intervention from the API server or rest of the kuberentes cluster components are 
+known as Static PODs.
+
+Remember you can only create PODs this way.You cannot create replicasets or deployments or services by placing a definition file in the designated 
+directory.
+The kubelet works at a POD level and can only understand PODs. Which is why it is able to create static pods.
+
+So what is that designated folder
+
+and how do you configure it.
+
+It could be any directory on the host. And the location of that directory is passed in to the kubelet
+
+as a option while running the service.
+
+The option is named pod manifest path
+
+and here it is set to /etc/Kubernetes/manifests. 
+
+Q)How many static pods exist in this cluster in all namespaces?
