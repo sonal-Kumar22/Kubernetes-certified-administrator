@@ -1,6 +1,6 @@
 What is minikube, kubectl and kubelet?
 
-Link: https://www.quora.com/What-is-minikube-kubectl-and-kubelet
+Link1: https://www.quora.com/What-is-minikube-kubectl-and-kubelet
 
 - kubectl is a “client-side” tool (binary executable) that can connect to a kubernetes cluster to read, create, modify well known kubernetes resources 
 (like pod, deployment, services)
@@ -8,3 +8,5 @@ Link: https://www.quora.com/What-is-minikube-kubectl-and-kubelet
 a node and realizes them in the form of running docker containers. As such it talks a lot to the docker layer on the node.
 - minikube is a way to setup a 1 noded kubernetes cluster running in a VM on top of a host (for example your own laptop). It is used to learn kubernetes. 
 Production systems should use kubernetes clusters with 3 master nodes to acchieve high availability.
+
+Link2: https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/compare-Kubernetes-kubectl-vs-kubelet-when-to-use#:~:text=kubectl%20is%20the%20command%2Dline,containers%20on%20a%20Kubernetes%20node.
