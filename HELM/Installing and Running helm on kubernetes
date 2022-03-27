@@ -1,0 +1,34 @@
+Installing and Running helm on kubernetes:
+1.Download and install helm
+2.initialize helm
+3.deploy application with helm
+
+Note: whenever you are executing helm on your k8s cluster the rbac api should be enabled on your machine
+command to check APIs: kubectl api-versions
+upon running the command we'll get a list of APIs in it check rbac apis are present:
+- rbac.authorization.k8s.io/v1
+- rbac.authorization.k8s.io/v1beta1
+this means both the rbac APIs are enabled in the kubernetes cluster.If htese APIs are not enabled on the cluster then you first need to enable these APIs.
+
+#Command to install helm:
+- wget https://get.helm.sh/helm-v3.4.1-linux-amd64.tar.gz
+- command to view the donwloaded helm file in directory: ls
+- command to provide read, write and executable permission: chmod 655 file_name
+
+command to extract the .tar file
+- tar xvf helm-v3.4.1-linux-amd64.tar.gz
+Command to change directory location of helm file
+- sudo mv linux-amd64/helm /usr/local/bin
+
+# installing helm
+- wget https://get.helm.sh/helm-v3.4.1-linux-amd64.tar.gz
+- tar xvf helm-v3.4.1-linux-amd64.tar.gz
+- sudo mv linux-amd64/helm /usr/local/bin
+
+#verify helm package
+- helm -h
+- helm -v
+
+#Initialize helm
+-kubectl create -f helm-rbac.yaml
+- helm init --servic-account helm-tiller
