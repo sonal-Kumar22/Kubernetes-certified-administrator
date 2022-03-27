@@ -23,4 +23,29 @@ HEML CLI or Tiller
 - when a chart is installed tiller creates a 'release' and starts tracking it for changes.
 - this way helm not only takes part in installation but is an actual deploy tool that manages lifecycle of applications in a cluster using chart release 
   and their revisions.
+  
+Helm Charts or packages
+- helm uses charts to pack all the required k8s components for an application to deploy, run and scale
+- helm chart is simply a collection of YAML template files organized into a specific directory structure
+- chart is also where dependencies are defined and configurations are updated and maintained
+- a chart root has to have only one file named Chart.yaml by convention
+- templates are an optional subdirectory in a chart that combines the k8s components of it ex: services, replicasets , deployments etc
+- Values are described in the values.yaml file which is a YAML structure holding values to match the template
+- values basically define the deployment values line name, labels
+- subcharts also named dependencies, are required charts for the current one
+- another way of using subcharts is considering it as an inheritance mechanism which allows fetching a standart chart with templates and used it as a
+  subcharts in multiple parent charts that would provide the values
+
+Helm concepts|repository
+- Repositories are where helm charts are held and maintained
+- sometimes hel packed repositories as a .tar.gz file
+
+Helm Concepts|release
+- Release is a mechanism to track installed applications on a k8s cluster; when an application is installed by helm a release is being created.
+- release can be tracked with helm ls; each would have a revision which is helm release versioning terminology; if a specific release is updated ex: 
+  adding more memory to a redis release, the revision will be incremented
+- helm allows rolling back to a particular revision, making it virtually the manager for deployments and production status handler.
+
+What is Helm in Kubernetes? Helm and Helm Charts explained | Kubernetes Tutorial 23
+link: https://www.youtube.com/watch?v=-ykwb1d0DXU
 
