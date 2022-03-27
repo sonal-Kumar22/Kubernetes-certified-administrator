@@ -1,0 +1,26 @@
+HELM Introduction:
+
+HELM:
+- its a kubernetes based package installer
+- best way to find , share and use software build for kubernetes
+- helps user to maintain application
+- helm is managed by CNCF - Cloud Native Computing Fiundation
+- helm manages kubernetes charts which are preconfigured packages of kubernetes resources
+- it enabled you to easily install packages , install revisions, and even rollback complex changes
+
+Why we need helm:
+- helm lets you deploy, fetch and manage application lifecycle both 3rd party products and your own
+- with helm, there is a structure and convention for a software package that defines a layer of YAML templates and another layer that changes the templates 
+  called values.
+- Values are injected into templates thus allowing a separation of configuration and defines where chages are allowed
+- this whole package is called helm chart
+- essentially you create strucutred application packages that contain everything they need to run a kubernetes cluster including dependencies the 
+  application requires.
+
+HEML CLI or Tiller
+- Helm is a CLI tool that interacts with its backend server called tiller
+- tiller is installed by sending the command helm-init and lives in the kube-system namespace
+- when a chart is installed tiller creates a 'release' and starts tracking it for changes.
+- this way helm not only takes part in installation but is an actual deploy tool that manages lifecycle of applications in a cluster using chart release 
+  and their revisions.
+
