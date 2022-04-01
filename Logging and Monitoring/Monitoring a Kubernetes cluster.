@@ -1,0 +1,14 @@
+Metrics Server:
+-You can have one metrics server per kubernetes cluster.
+-the metric server retrieves metrics from each of the kubernetes nodes and pods, aggregates them and stores them in memory.
+-Note that the metric server is only an in memory monitoring solution and does not store the metrics on the desk and as a result you cannot see historical  
+ performance data.
+So how are the metrics generated for the PODs on these nodes? 
+-Kubernetes runs an agent on each node known as the kubelet, which is responsible for receiving instructions from the kubernetes API master server and 
+ running PODs on the nodes.The kubelet also contains a subcomponent known as as cAdvisor or Container Advisor.
+-cAdvisor is responsible for retrieving performance metrics from pods, and exposing them through the kubelet API to make the metrics available for the 
+ Metrics Server
+ 
+Command to view memory and CPU consumption of each nodes,pods
+- kubectl top node
+- kubectl top pod
