@@ -10,5 +10,7 @@ So how are the metrics generated for the PODs on these nodes?
  Metrics Server
  
 Command to view memory and CPU consumption of each nodes,pods
-- kubectl top node
+- watch "kubectl top node" / kubectl top node
 - kubectl top pod
+
+
